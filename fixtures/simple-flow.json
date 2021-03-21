@@ -1,0 +1,241 @@
+[
+    {
+        "id": "main.flow",
+        "type": "tab",
+        "label": "main",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "test.flow",
+        "type": "tab",
+        "label": "test",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "eacbb9ef.69d5c8",
+        "type": "EventListener",
+        "z": "main.flow",
+        "name": "GET /hello",
+        "provider": "aws",
+        "eventSource": "api",
+        "dynamodbOperation": "",
+        "apiMethod": "get",
+        "apiUrl": "/hello",
+        "albMethod": "any",
+        "albUrl": "",
+        "bucketName": "",
+        "event": "",
+        "x": 72.5,
+        "y": 113.75,
+        "wires": [
+            [
+                "d38cba0b.23b568"
+            ]
+        ],
+        "caname": "event-handler",
+        "category": "general"
+    },
+    {
+        "id": "logger",
+        "type": "Logger",
+        "z": "main.flow",
+        "name": "Log",
+        "level": "INFO",
+        "message": "Request received",
+        "x": 322.5,
+        "y": 40,
+        "wires": [
+            [
+                "b5fc6ccd.17dd7"
+            ]
+        ],
+        "caname": "logger",
+        "category": "logging"
+    },
+    {
+        "id": "b5fc6ccd.17dd7",
+        "type": "EventListener-End",
+        "z": "main.flow",
+        "name": "Success",
+        "statusCode": "200",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "payload": "{\"hello\": \"world\"}",
+        "x": 662.5,
+        "y": 100,
+        "wires": [],
+        "caname": "eventlistenerend",
+        "category": "general"
+    },
+    {
+        "id": "b970b7d2.5454c8",
+        "type": "Assertion",
+        "z": "test.flow",
+        "name": "check response",
+        "selector": "jsonBody",
+        "property": "hello",
+        "comparison": "equals",
+        "value": "world",
+        "x": 265,
+        "y": 160,
+        "wires": [
+            [
+                "e0721cc7.653eb"
+            ]
+        ],
+        "caname": "test-assertion",
+        "category": "testing"
+    },
+    {
+        "id": "e0721cc7.653eb",
+        "type": "TestCaseEnd",
+        "z": "test.flow",
+        "name": "TestCaseEnd",
+        "x": 425,
+        "y": 160,
+        "wires": [],
+        "caname": "test-case-end",
+        "category": "testing"
+    },
+    {
+        "id": "e8fb91dc.46c24",
+        "type": "HTTPTestCase",
+        "z": "test.flow",
+        "name": "HTTPTestCase",
+        "method": "GET",
+        "path": "/hello",
+        "headers": {
+            "Accept": "application/json"
+        },
+        "authtype": "none",
+        "secUser": "",
+        "secPassword": "",
+        "secToken": "",
+        "payload": "",
+        "x": 122.5,
+        "y": 160,
+        "wires": [
+            [
+                "b970b7d2.5454c8"
+            ]
+        ],
+        "caname": "http-test-case",
+        "category": "testing"
+    },
+    {
+        "id": "f58042ad.8baf8",
+        "type": "catch",
+        "z": "main.flow",
+        "name": "catch",
+        "scope": null,
+        "uncaught": false,
+        "x": 402.5,
+        "y": 300,
+        "wires": [
+            [
+                "bc61f0ed.46d92"
+            ]
+        ],
+        "caname": "catch",
+        "category": "exception"
+    },
+    {
+        "id": "d38cba0b.23b568",
+        "type": "Switch",
+        "z": "main.flow",
+        "name": "Switch",
+        "property": "msg.payload",
+        "propertyType": "",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "str"
+            }
+        ],
+        "repair": false,
+        "outputs": 3,
+        "x": 167.5,
+        "y": 113.75,
+        "wires": [
+            [
+                "logger"
+            ],
+            [
+                "e77a5312.fd55c"
+            ],
+            [
+                "1f315289.36884d"
+            ]
+        ],
+        "caname": "switch",
+        "category": "routing"
+    },
+    {
+        "id": "e77a5312.fd55c",
+        "type": "Function",
+        "z": "main.flow",
+        "name": "Function",
+        "outputs": 1,
+        "noerr": 0,
+        "query": "/** Following expressions can be used to access or set the\n   variables, environment or payload within function.\n   $vars.get(\"key\") - To access a variable inside the function node.\n   $vars.set(\"key\",\"value\") - To set a variable inside the function node.\n   $env.get(\"key\") - To access an environment variable inside the function node.\n   $msg.get(\"payload\") - To get the payload object inside the function node.\n   $msg.set(\"payload\",\"value\") - To set the payload object inside the function node.\n   msg.payload - Payload can also be acceses from msg object as any \n   regular javascript object.\n   node.send([msg1,msg2]) - Sending msg to more than one output   **/\n\n\nreturn msg;",
+        "x": 402.5,
+        "y": 120,
+        "wires": [
+            [
+                "b5fc6ccd.17dd7"
+            ]
+        ],
+        "caname": "function",
+        "category": "transformation"
+    },
+    {
+        "id": "bc61f0ed.46d92",
+        "type": "EventListener-End",
+        "z": "main.flow",
+        "name": "EventListener-End",
+        "statusCode": "200",
+        "headers": {},
+        "payload": "",
+        "x": 562.5,
+        "y": 280,
+        "wires": [],
+        "caname": "eventlistenerend",
+        "category": "general"
+    },
+    {
+        "id": "1f315289.36884d",
+        "type": "CSV",
+        "z": "main.flow",
+        "name": "CSV",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "x,y",
+        "skip": "0",
+        "x": 282.5,
+        "y": 180,
+        "wires": [
+            [
+                "e77a5312.fd55c"
+            ]
+        ],
+        "caname": "CSV",
+        "category": "transformation"
+    }
+]
