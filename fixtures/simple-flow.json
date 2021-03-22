@@ -28,24 +28,24 @@
         "bucketName": "",
         "event": "",
         "x": 72.5,
-        "y": 113.75,
+        "y": 195,
         "wires": [
             [
-                "d38cba0b.23b568"
+                "3071b60b.04eb5a"
             ]
         ],
         "caname": "event-handler",
         "category": "general"
     },
     {
-        "id": "logger",
+        "id": "5eb3cd61.894f04",
         "type": "Logger",
         "z": "main.flow",
         "name": "Log",
         "level": "INFO",
         "message": "Request received",
-        "x": 322.5,
-        "y": 40,
+        "x": 382.5,
+        "y": 60,
         "wires": [
             [
                 "b5fc6ccd.17dd7"
@@ -64,8 +64,8 @@
             "Content-Type": "application/json"
         },
         "payload": "{\"hello\": \"world\"}",
-        "x": 662.5,
-        "y": 100,
+        "x": 682.5,
+        "y": 60,
         "wires": [],
         "caname": "eventlistenerend",
         "category": "general"
@@ -79,8 +79,8 @@
         "property": "hello",
         "comparison": "equals",
         "value": "world",
-        "x": 265,
-        "y": 160,
+        "x": 167.5,
+        "y": 72.5,
         "wires": [
             [
                 "e0721cc7.653eb"
@@ -94,8 +94,8 @@
         "type": "TestCaseEnd",
         "z": "test.flow",
         "name": "TestCaseEnd",
-        "x": 425,
-        "y": 160,
+        "x": 262.5,
+        "y": 72.5,
         "wires": [],
         "caname": "test-case-end",
         "category": "testing"
@@ -115,8 +115,8 @@
         "secPassword": "",
         "secToken": "",
         "payload": "",
-        "x": 122.5,
-        "y": 160,
+        "x": 72.5,
+        "y": 72.5,
         "wires": [
             [
                 "b970b7d2.5454c8"
@@ -126,35 +126,13 @@
         "category": "testing"
     },
     {
-        "id": "f58042ad.8baf8",
-        "type": "catch",
-        "z": "main.flow",
-        "name": "catch",
-        "scope": null,
-        "uncaught": false,
-        "x": 402.5,
-        "y": 300,
-        "wires": [
-            [
-                "bc61f0ed.46d92"
-            ]
-        ],
-        "caname": "catch",
-        "category": "exception"
-    },
-    {
-        "id": "d38cba0b.23b568",
+        "id": "3071b60b.04eb5a",
         "type": "Switch",
         "z": "main.flow",
         "name": "Switch",
-        "property": "msg.payload",
+        "property": "vars.x",
         "propertyType": "",
         "rules": [
-            {
-                "t": "eq",
-                "v": "1",
-                "vt": "str"
-            },
             {
                 "t": "eq",
                 "v": "2",
@@ -162,80 +140,144 @@
             },
             {
                 "t": "eq",
-                "v": "3",
+                "v": "1",
                 "vt": "str"
             }
         ],
         "repair": false,
-        "outputs": 3,
-        "x": 167.5,
-        "y": 113.75,
+        "outputs": 2,
+        "x": 182.5,
+        "y": 280,
         "wires": [
             [
-                "logger"
+                "5eb3cd61.894f04"
             ],
             [
-                "e77a5312.fd55c"
-            ],
-            [
-                "1f315289.36884d"
+                "a5b178bb.3e9bb8"
             ]
         ],
         "caname": "switch",
         "category": "routing"
     },
     {
-        "id": "e77a5312.fd55c",
-        "type": "Function",
+        "id": "a5b178bb.3e9bb8",
+        "type": "Logger",
         "z": "main.flow",
-        "name": "Function",
-        "outputs": 1,
-        "noerr": 0,
-        "query": "/** Following expressions can be used to access or set the\n   variables, environment or payload within function.\n   $vars.get(\"key\") - To access a variable inside the function node.\n   $vars.set(\"key\",\"value\") - To set a variable inside the function node.\n   $env.get(\"key\") - To access an environment variable inside the function node.\n   $msg.get(\"payload\") - To get the payload object inside the function node.\n   $msg.set(\"payload\",\"value\") - To set the payload object inside the function node.\n   msg.payload - Payload can also be acceses from msg object as any \n   regular javascript object.\n   node.send([msg1,msg2]) - Sending msg to more than one output   **/\n\n\nreturn msg;",
-        "x": 402.5,
-        "y": 120,
+        "name": "Log",
+        "level": "INFO",
+        "message": "Request received",
+        "x": 342.5,
+        "y": 200,
         "wires": [
             [
-                "b5fc6ccd.17dd7"
+                "10d7c0ff.662b8f"
             ]
         ],
-        "caname": "function",
-        "category": "transformation"
+        "caname": "logger",
+        "category": "logging"
     },
     {
-        "id": "bc61f0ed.46d92",
+        "id": "10d7c0ff.662b8f",
         "type": "EventListener-End",
         "z": "main.flow",
-        "name": "EventListener-End",
+        "name": "Success2",
         "statusCode": "200",
-        "headers": {},
-        "payload": "",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "payload": "{\"hello\": \"world\"}",
         "x": 562.5,
-        "y": 280,
+        "y": 180,
         "wires": [],
         "caname": "eventlistenerend",
         "category": "general"
     },
     {
-        "id": "1f315289.36884d",
-        "type": "CSV",
+        "id": "b4ec1e44.52965",
+        "type": "catch",
         "z": "main.flow",
-        "name": "CSV",
-        "sep": ",",
-        "hdrin": "",
-        "hdrout": "",
-        "multi": "mult",
-        "ret": "\\n",
-        "temp": "x,y",
-        "skip": "0",
-        "x": 282.5,
-        "y": 180,
+        "name": "catch",
+        "scope": null,
+        "uncaught": false,
+        "x": 502.5,
+        "y": 340,
         "wires": [
             [
-                "e77a5312.fd55c"
+                "35bcc0cb.47ab"
             ]
         ],
-        "caname": "CSV",
-        "category": "transformation"
+        "caname": "catch",
+        "category": "exception"
+    },
+    {
+        "id": "35bcc0cb.47ab",
+        "type": "EventListener-End",
+        "z": "main.flow",
+        "name": "Error",
+        "statusCode": "200",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "payload": "\"Error Found\"",
+        "x": 722.5,
+        "y": 380,
+        "wires": [],
+        "caname": "eventlistenerend",
+        "category": "general"
+    },
+    {
+        "id": "e1b77dda.4998d",
+        "type": "Assertion",
+        "z": "test.flow",
+        "name": "check response",
+        "selector": "jsonBody",
+        "property": "hello",
+        "comparison": "equals",
+        "value": "world",
+        "x": 167.5,
+        "y": 317.5,
+        "wires": [
+            [
+                "be93f3d6.6abf2"
+            ]
+        ],
+        "caname": "test-assertion",
+        "category": "testing"
+    },
+    {
+        "id": "be93f3d6.6abf2",
+        "type": "TestCaseEnd",
+        "z": "test.flow",
+        "name": "TestCaseEnd",
+        "x": 262.5,
+        "y": 317.5,
+        "wires": [],
+        "caname": "test-case-end",
+        "category": "testing"
+    },
+    {
+        "id": "560cb212.fa1a8c",
+        "type": "HTTPTestCase",
+        "z": "test.flow",
+        "name": "HTTPTestCase2",
+        "method": "GET",
+        "path": "/hello",
+        "headers": {
+            "Accept": "application/json"
+        },
+        "authtype": "none",
+        "secUser": "",
+        "secPassword": "",
+        "secToken": "",
+        "payload": "",
+        "x": 72.5,
+        "y": 317.5,
+        "wires": [
+            [
+                "e1b77dda.4998d"
+            ]
+        ],
+        "caname": "http-test-case",
+        "category": "testing"
     }
 ]

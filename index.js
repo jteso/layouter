@@ -2,25 +2,38 @@ const dagre = require('dagre')
 
 const NODE_SIZE = 45;
 
+
 function layouter(flow) {
+    let fmain = layouterTab(flow, 'main.flow');
+    let ftest = layouterTab(fmain, 'test.flow');
+
+    return ftest;
+}
+
+/**
+ * 
+ * @param {object} flow - Kumologica flow
+ * @param {string} tab - tab to apply layout. Values: ['main.flow' | 'test.flow'] 
+ */
+function layouterTab(flow, tab) {
     // Create a new directed graph 
     let maing= new dagre.graphlib.Graph();
 
     // Set an object for the graph label
-    maing.setGraph({rankdir: "LR", nodesep: 100, marginx: 50, marginy: 50 });
+    maing.setGraph({rankdir: "LR", nodesep: 200, marginx: 50, marginy: 50 });
 
     // Default to assigning a new object as a label for each new edge.
     maing.setDefaultEdgeLabel(function() { return {}; });
 
-    let mainNodes = getNodes('main.flow', flow);
+    let nodes = getNodes(tab, flow);
 
     // Create nodes for the main graph
-    mainNodes.forEach(n => {
+    nodes.forEach(n => {
         maing.setNode(n.id, {label: n.name, width: NODE_SIZE, height: NODE_SIZE })
     });
 
     // Create the edges for the main graph
-    mainNodes.forEach(n => {
+    nodes.forEach(n => {
         let source = n.id;
         let target;
         n.wires.forEach(e => {
@@ -34,19 +47,15 @@ function layouter(flow) {
     // replace the coordinates of the original flow
     maing.nodes().forEach(nid => {
         if (nid){
-            console.log(`Applying positioning to ${nid}...`);
             let node = flow.find(n => n.id === nid);
             if (node) {
                 node.x = maing.node(nid).x;
                 node.y = maing.node(nid).y;
-                // console.log('Original node repositioned to: ', JSON.stringify(node));
             }
         }
     });
 
-    console.log(JSON.stringify(flow));
-    
-   
+    return flow;
     // Printing results
     // maing.nodes().forEach(function(v) {
     //     console.log("Node " + v + ": " + JSON.stringify(maing.node(v)));
@@ -62,4 +71,7 @@ function getNodes(tab, flow) {
     return flow.filter(n => n.z === tab)
 }
 
-module.exports = layouter
+module.exports = {
+    layouter,
+    layouterTab 
+}
