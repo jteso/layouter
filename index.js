@@ -26,35 +26,37 @@ function layouterTab(flow, tab) {
     maing.setDefaultEdgeLabel(function() { return {}; });
 
     let nodes = getNodes(tab, flow);
+    if (nodes) {
+        // Create nodes for the main graph
+        nodes.forEach(n => {
+            maing.setNode(n.id, {label: n.name, width: NODE_SIZE, height: NODE_SIZE })
+        });
 
-    // Create nodes for the main graph
-    nodes.forEach(n => {
-        maing.setNode(n.id, {label: n.name, width: NODE_SIZE, height: NODE_SIZE })
-    });
+        // Create the edges for the main graph
+        nodes.forEach(n => {
+            let source = n.id;
+            let target;
+            n.wires.forEach(e => {
+                target = e[0];
+                maing.setEdge(source, target)
+            })
+        });
 
-    // Create the edges for the main graph
-    nodes.forEach(n => {
-        let source = n.id;
-        let target;
-        n.wires.forEach(e => {
-            target = e[0];
-            maing.setEdge(source, target)
-        })
-    });
+        dagre.layout(maing);
 
-    dagre.layout(maing);
-
-    // replace the coordinates of the original flow
-    maing.nodes().forEach(nid => {
-        if (nid){
-            let node = flow.find(n => n.id === nid);
-            if (node) {
-                node.x = maing.node(nid).x;
-                node.y = maing.node(nid).y;
+        // replace the coordinates of the original flow
+        maing.nodes().forEach(nid => {
+            if (nid){
+                let node = flow.find(n => n.id === nid);
+                if (node) {
+                    node.x = maing.node(nid).x;
+                    node.y = maing.node(nid).y;
+                }
             }
-        }
-    });
+        });
 
+    }
+   
     return flow;
     // Printing results
     // maing.nodes().forEach(function(v) {
@@ -64,7 +66,6 @@ function layouterTab(flow, tab) {
     // g.edges().forEach(function(e) {
     //     console.log("Edge " + e.v + " -> " + e.w + ": " + JSON.stringify(g.edge(e)));
     // });
-    
 }
 
 function getNodes(tab, flow) {
